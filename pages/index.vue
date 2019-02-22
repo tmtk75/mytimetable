@@ -7,13 +7,16 @@
           <v-toolbar-title>My timetables</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon>
-            <v-icon>search</v-icon>
+            <v-icon>add</v-icon>
           </v-btn>
         </v-toolbar>
 
         <v-list subheader>
           <template v-for="(table, index) in tables">
-            <v-subheader :key="'h'+index">{{ table.tablename }}</v-subheader>
+            <v-subheader :key="'h'+index">
+              <v-btn flat icon><v-icon color="grey lighten-1">add_alarm</v-icon></v-btn>
+              {{ table.tablename }}
+            </v-subheader>
             <template v-for="(item, index2) in table.items">
               <v-list-tile :key="'a'+index +'-' + index2">
                 <v-list-tile-action/>
@@ -23,7 +26,7 @@
                 <v-list-tile-action>left</v-list-tile-action>
                 <v-list-tile-action>
                   <v-btn icon ripple>
-                    <v-icon color="grey lighten-1">info</v-icon>
+                    <v-icon color="grey lighten-1">delete_outline</v-icon>
                   </v-btn>
                 </v-list-tile-action>
               </v-list-tile>
