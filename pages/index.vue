@@ -14,7 +14,9 @@
         <v-list subheader>
           <template v-for="(table, index) in tables">
             <v-subheader :key="'h'+index">
-              <v-btn flat icon><v-icon color="grey lighten-1">add_alarm</v-icon></v-btn>
+              <v-btn flat icon>
+                <v-icon color="grey lighten-1">add_alarm</v-icon>
+              </v-btn>
               {{ table.tablename }}
             </v-subheader>
             <template v-for="(item, index2) in table.items">
@@ -23,7 +25,7 @@
                 <v-list-tile-content>
                   <v-list-tile-title>{{ item.time }}</v-list-tile-title>
                 </v-list-tile-content>
-                <v-list-tile-action>left</v-list-tile-action>
+                <v-list-tile-action>{{ minLeft(item.time) }}</v-list-tile-action>
                 <v-list-tile-action>
                   <v-btn icon ripple>
                     <v-icon color="grey lighten-1">delete_outline</v-icon>
@@ -41,6 +43,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator'
+import moment from 'moment'
 
 interface Table {
   tablename: string
@@ -68,5 +71,12 @@ export default class extends Vue {
       items: [{ time: '08:00' }]
     }
   ]
+
+  minLeft(time: string) {
+    const t = moment(time, 'HH:mm');
+    const now = moment();
+    const d = moment.duration(t.diff(now));
+    return `${d.hours()}:${d.minutes()}:${d.seconds()}`
+  }
 }
 </script>
