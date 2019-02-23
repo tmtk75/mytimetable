@@ -44,6 +44,7 @@
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator'
 import moment from 'moment'
+import { setTimeout, setInterval } from 'timers'
 
 interface Table {
   tablename: string
@@ -72,10 +73,18 @@ export default class extends Vue {
     }
   ]
 
-  minLeft(time: string) {
-    const t = moment(time, 'HH:mm');
-    const now = moment();
-    const d = moment.duration(t.diff(now));
+  mounted() {
+    setInterval(() => {
+      this.now = moment()
+    }, 1000)
+  }
+
+  now: moment.Moment = moment()
+
+  minLeft(time: string): string {
+    const t = moment(time, 'HH:mm')
+    // this.now = moment();
+    const d = moment.duration(t.diff(this.now))
     return `${d.hours()}:${d.minutes()}:${d.seconds()}`
   }
 }
