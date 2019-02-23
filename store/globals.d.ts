@@ -1,6 +1,6 @@
 interface Table {
     tablename: string
-    item: Item[]
+    items: Item[]
   }
   
   interface Item {

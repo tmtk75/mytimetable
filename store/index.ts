@@ -1,4 +1,8 @@
-export const state = () => ({
+interface RootState {
+  tables: Table[]
+}
+
+export const state = (): RootState => ({
   tables: [
     {
       tablename: 'Bus',
