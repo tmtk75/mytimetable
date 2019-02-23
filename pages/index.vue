@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-navigation-drawer v-model="drawer" app width="220">
-      <v-list>
+      <v-list dense>
         <v-list-tile v-for="(item, i) in items" :to="item.to" :key="i" router exact>
           <v-list-tile-action>
             <v-icon v-html="item.icon"/>
@@ -23,7 +23,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-list subheader>
+      <v-list subheader dense>
         <template v-for="(table, index) in timetables">
           <v-subheader :key="'h'+index">
             <v-layout align-center>
