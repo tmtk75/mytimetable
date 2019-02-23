@@ -153,7 +153,7 @@ import moment from 'moment'
 
 enum key {
   hidePassedItems = 'hidePassedItems',
-  folded = "folded"
+  folded = 'folded'
 }
 
 @Component
@@ -173,7 +173,9 @@ export default class extends Vue {
     }, 1000)
     this.drawer = false
 
-    this.hidePassedItems = JSON.parse(localStorage.getItem(key.hidePassedItems) || "false")
+    this.hidePassedItems = JSON.parse(
+      localStorage.getItem(key.hidePassedItems) || 'false'
+    )
   }
 
   destroyed() {
@@ -283,7 +285,14 @@ export default class extends Vue {
   drawer = false
   items = [{ to: '/edit', icon: 'mdi-pencil-outline', title: 'Edit' }]
 
-  folded: boolean[] = (JSON.parse(localStorage.getItem(key.folded) || JSON.stringify(Array.from(Array(256).keys()).map(e => true))))
+  folded: boolean[] = JSON.parse(
+    localStorage.getItem(key.folded) ||
+      JSON.stringify(Array.from(Array(16).keys()).map(e => true))
+  )
+  @Watch('folded')
+  onWatchFolded(curr, old) {
+    localStorage.setItem(key.folded, JSON.stringify(this.folded))
+  }
 
   hidePassedItems = false
   @Watch('hidePassedItems')
