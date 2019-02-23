@@ -226,7 +226,7 @@ export default class extends Vue {
     this.showTextDialog = true
   }
 
-  drawer = true
-  items = [{ to: '/export', title: 'Export', icon: 'mdi-github-box' }]
+  drawer = false
+  items = [{ to: '/edit', icon: 'mdi-pencil-outline', title: 'Edit' }]
 }
 </script>
