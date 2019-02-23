@@ -11,10 +11,10 @@
       </v-toolbar>
 
       <v-list subheader>
-        <template v-for="(table, index) in tables">
+        <template v-for="(table, index) in timetables">
           <v-subheader :key="'h'+index">
             <v-btn flat icon>
-              <v-icon color="grey lighten-1">add_alarm</v-icon>
+              <v-icon color="grey lighten-1" @click="onAddClick(table)">add_alarm</v-icon>
             </v-btn>
             {{ table.tablename }}
           </v-subheader>
@@ -38,7 +38,7 @@
               </v-list-tile-action>
             </v-list-tile>
           </template>
-          <v-divider inset v-if="index + 1!= tables.length" :key="'d'+index"></v-divider>
+          <v-divider inset v-if="index + 1!= timetables.length" :key="'d'+index"></v-divider>
         </template>
       </v-list>
     </v-flex>
@@ -55,13 +55,19 @@
 
 
 <script lang="ts">
-import { Vue, Component, State, Getter } from 'nuxt-property-decorator'
+import {
+  Vue,
+  Component,
+  State,
+  Getter,
+  Mutation
+} from 'nuxt-property-decorator'
 import moment from 'moment'
 
 @Component
 export default class extends Vue {
-  @Getter('timetables', { namespace: 'timetable'})
-  tables: Timetable[]
+  @Getter('timetables', { namespace: 'timetable' })
+  timetables: Timetable[]
 
   @State('colors', { namespace: 'color' })
   colors: any
@@ -89,5 +95,12 @@ export default class extends Vue {
   isPassed(time: string) {
     return this.duration(time).asSeconds() < 0
   }
+
+  onAddClick(table: Timetable) {
+    this.addItem({ timetable: table, time: "12:34" })
+  }
+
+  @Mutation('addItem', { namespace: 'timetable' })
+  addItem: any
 }
 </script>
