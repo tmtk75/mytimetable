@@ -1,4 +1,4 @@
-import { GetterTree, MutationTree } from 'vuex'
+import { GetterTree, ActionTree, MutationTree } from 'vuex'
 
 interface TimetableState {
   timetables: Timetable[]
@@ -28,8 +28,20 @@ export const getters: GetterTree<TimetableState, {}> = {
   }
 }
 
+export const actions: ActionTree<TimetableState, {}> = {
+  addItem(
+    { commit },
+    { timetable, time }: { timetable: Timetable; time: string }
+  ) {
+    commit('itemAdded', { timetable, time })
+  }
+}
+
 export const mutations: MutationTree<TimetableState> = {
-  addItem(state, { timetable, time }: { timetable: Timetable, time: string }) {
+  itemAdded(
+    state,
+    { timetable, time }: { timetable: Timetable; time: string }
+  ) {
     const t = state.timetables.find(e => e === timetable)
     if (!t) {
       return

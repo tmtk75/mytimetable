@@ -65,13 +65,7 @@
 
 
 <script lang="ts">
-import {
-  Vue,
-  Component,
-  State,
-  Getter,
-  Mutation
-} from 'nuxt-property-decorator'
+import { Vue, Component, State, Getter, Action } from 'nuxt-property-decorator'
 import moment from 'moment'
 
 @Component
@@ -121,7 +115,7 @@ export default class extends Vue {
     this.addItem({ timetable: this.targetTimetable, time: this.selectedTime })
   }
 
-  @Mutation('addItem', { namespace: 'timetable' })
+  @Action('addItem', { namespace: 'timetable' })
   addItem: any
 }
 </script>
