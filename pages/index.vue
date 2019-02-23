@@ -55,7 +55,7 @@
       </v-list>
     </v-flex>
 
-    <v-dialog v-model="showTimePicker" max-width="290">
+    <v-dialog v-model="showTimePicker" persistent max-width="290">
       <v-card>
         <v-time-picker v-model="selectedTime" format="24hr"></v-time-picker>
         <v-card-actions>
@@ -67,7 +67,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="showOkOrCancel">
+    <v-dialog v-model="showOkOrCancel" persistent>
       <v-card>
         <v-card-actions>
           <v-layout justify-center>
@@ -78,7 +78,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="showTextDialog">
+    <v-dialog v-model="showTextDialog" persistent>
       <v-card>
         <v-card-text>
           <v-text-field v-model="editedText" autofocus/>
