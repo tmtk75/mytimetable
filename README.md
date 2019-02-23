@@ -1,4 +1,4 @@
-# mins-left
+# My timetable
 
 > My stupendous Nuxt.js project
 
