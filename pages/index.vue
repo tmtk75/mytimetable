@@ -78,15 +78,15 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="showTimetableName">
+    <v-dialog v-model="showTextDialog">
       <v-card>
         <v-card-text>
-          <v-text-field v-model="timetableName" autofocus/>
+          <v-text-field v-model="editedText" autofocus/>
         </v-card-text>
         <v-card-actions>
           <v-layout justify-center>
-            <v-btn flat @click="showTimetableName=false">Cancel</v-btn>
-            <v-btn flat @click="showTimetableName=false; okAddTimetableTask()">OK</v-btn>
+            <v-btn flat @click="showTextDialog=false">Cancel</v-btn>
+            <v-btn flat @click="showTextDialog=false; okAddTimetableTask()">OK</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -180,15 +180,15 @@ export default class extends Vue {
   @Action('addTimetable', { namespace: 'timetable' })
   addTimetable: any
 
-  timetableName = ''
-  showTimetableName = false
-  okAddTimetableTask = () => {}
+  editedText = ''
+  showTextDialog = false
+  okAddTimetableTask: any;// = () => {}
 
   onAddTimetableClick() {
-    this.okAddTimetableTask = () =>
-      this.addTimetable({ timetableName: this.timetableName })
-    this.timetableName = ''
-    this.showTimetableName = true
+    this.okAddTimetableTask = (a) =>
+      this.addTimetable({ timetableName: this.editedText })
+    this.editedText = ''
+    this.showTextDialog = true
   }
 }
 </script>
