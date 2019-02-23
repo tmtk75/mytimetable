@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-btn flat @click="onBackClick">Back</v-btn>
     <v-textarea v-model="data" readonly class="mono" rows="16" label="timetables"/>
   </v-container>
 </template>
@@ -8,6 +9,7 @@
 <style scoped>
 .mono {
   font-family: monospace;
+  font-size: 9pt;
 }
 </style>
 
@@ -22,6 +24,10 @@ export default class extends Vue {
     return {
       data: localStorage.getItem(Key.timetables)
     }
+  }
+
+  onBackClick() {
+    ;(this as any).$router.push({ path: '/' })
   }
 }
 </script>

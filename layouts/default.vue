@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { Vue, Component, Action } from 'nuxt-property-decorator'
+const pkg = require("~/package.json")
 
 @Component
 export default class extends Vue {

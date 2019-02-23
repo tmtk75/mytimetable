@@ -128,10 +128,19 @@ export default class extends Vue {
   @State('colors', { namespace: 'color' })
   colors: any
 
-  mounted() {
-    setInterval(() => {
+  intervalId: any = null;
+
+  created() {
+    // console.log('created')
+    this.intervalId = setInterval(() => {
       this.now = moment()
     }, 1000)
+    this.drawer = false;
+  }
+
+  destroyed() {
+    // console.log("destroyed");
+    clearInterval(this.intervalId)
   }
 
   now: moment.Moment = moment()
