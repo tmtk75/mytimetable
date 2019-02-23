@@ -23,15 +23,15 @@
         </v-btn>
       </v-toolbar>
 
-      <v-list subheader dense>
-        <template v-for="(table, index) in timetables">
-          <v-subheader :key="'h'+index">
+      <v-list dense expand>
+        <v-list-group v-for="(table, index) in timetables" :key="'h'+index" v-model="folded[index]">
+          <v-list-tile slot="activator">
             <v-layout align-center>
               <v-flex xs6 @click="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
               <v-flex xs6>
                 <v-layout justify-end>
                   <v-btn flat icon>
-                    <v-icon color="grey lighten-1" @click.stop.prevent="onAddItemClick(table)">add</v-icon>
+                    <v-icon color="grey lighten-1" @click.stop.prevent="onAddItemClick(table, index)">add</v-icon>
                   </v-btn>
                   <v-btn flat icon>
                     <v-icon
@@ -42,7 +42,7 @@
                 </v-layout>
               </v-flex>
             </v-layout>
-          </v-subheader>
+          </v-list-tile>
           <template v-for="(item, index2) in table.items">
             <v-list-tile
               :key="'a'+index +'-' + index2"
@@ -64,7 +64,7 @@
             </v-list-tile>
           </template>
           <v-divider inset v-if="index + 1!= timetables.length" :key="'d'+index"></v-divider>
-        </template>
+        </v-list-group>
       </v-list>
     </v-flex>
 
@@ -117,7 +117,7 @@
 
 
 <script lang="ts">
-import { Vue, Component, State, Getter, Action } from 'nuxt-property-decorator'
+import { Vue, Component, State, Getter, Action, Watch } from 'nuxt-property-decorator'
 import moment from 'moment'
 
 @Component
@@ -128,14 +128,14 @@ export default class extends Vue {
   @State('colors', { namespace: 'color' })
   colors: any
 
-  intervalId: any = null;
+  intervalId: any = null
 
   created() {
     // console.log('created')
     this.intervalId = setInterval(() => {
       this.now = moment()
     }, 1000)
-    this.drawer = false;
+    this.drawer = false
   }
 
   destroyed() {
@@ -165,11 +165,12 @@ export default class extends Vue {
   showTimePicker = false
   selectedTime = ''
 
-  onAddItemClick(table: Timetable) {
+  onAddItemClick(table: Timetable, index: number) {
     // this.addItem({ timetable: table, time: '12:34' })
     this.targetTimetable = table
     this.selectedTime = moment().format('HH:mm')
     this.showTimePicker = true
+    this.folded[index] = true;
   }
 
   @Action('addItem', { namespace: 'timetable' })
@@ -228,5 +229,8 @@ export default class extends Vue {
 
   drawer = false
   items = [{ to: '/edit', icon: 'mdi-pencil-outline', title: 'Edit' }]
+
+  folded: boolean[] = Array.from(Array(256).keys()).map(e => true)
+
 }
 </script>
