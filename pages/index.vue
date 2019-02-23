@@ -141,8 +141,19 @@
 
 
 <script lang="ts">
-import { Vue, Component, State, Getter, Action } from 'nuxt-property-decorator'
+import {
+  Vue,
+  Component,
+  State,
+  Getter,
+  Action,
+  Watch
+} from 'nuxt-property-decorator'
 import moment from 'moment'
+
+enum key {
+  config = 'config'
+}
 
 @Component
 export default class extends Vue {
@@ -160,6 +171,9 @@ export default class extends Vue {
       this.now = moment()
     }, 1000)
     this.drawer = false
+
+    const conf: Config = JSON.parse(localStorage.getItem(key.config) || '{}')
+    this.hidePassedItems = conf.hidePassedItems
   }
 
   destroyed() {
@@ -272,5 +286,10 @@ export default class extends Vue {
   folded: boolean[] = Array.from(Array(256).keys()).map(e => true)
 
   hidePassedItems = false
+  @Watch('hidePassedItems')
+  watchHidePassedItems(curr, old) {
+    const c: Config = { hidePassedItems: curr }
+    localStorage.setItem(key.config, JSON.stringify(c))
+  }
 }
 </script>
