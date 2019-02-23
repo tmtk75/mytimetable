@@ -38,17 +38,14 @@
               <v-flex xs6 @click="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
               <v-flex xs6>
                 <v-layout justify-end>
-                  <v-btn flat icon>
-                    <v-icon
-                      color="grey lighten-1"
-                      @click.stop.prevent="onAddItemClick(table, index)"
-                    >add</v-icon>
+                  <v-btn icon @click.stop.prevent v-if="index > 0">
+                    <v-icon color="grey lighten-1">keyboard_arrow_up</v-icon>
                   </v-btn>
-                  <v-btn flat icon>
-                    <v-icon
-                      color="grey lighten-1"
-                      @click.stop.prevent="onDeleteTimetableClick(table)"
-                    >delete_outline</v-icon>
+                  <v-btn icon @click.stop.prevent="onAddItemClick(table, index)">
+                    <v-icon color="grey lighten-1">add</v-icon>
+                  </v-btn>
+                  <v-btn icon @click.stop.prevent="onDeleteTimetableClick(table)">
+                    <v-icon color="grey lighten-1">delete_outline</v-icon>
                   </v-btn>
                 </v-layout>
               </v-flex>
