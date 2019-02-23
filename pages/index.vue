@@ -74,7 +74,7 @@
             </v-list-tile-action>
             <v-list-tile-action>
               <v-btn icon ripple>
-                <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">remove</v-icon>
+                <v-icon color="grey lighten-1" @click.stop.prevent="onDeleteItem(table, item)">remove</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
