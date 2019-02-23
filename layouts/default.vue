@@ -7,7 +7,7 @@
 
       <v-footer fixed app>
         <v-layout justify-center align-center class="caption">
-          <div>copyright 2019 tmtk75</div>
+          <div>copyright 2019 tmtk75 v{{ version }}</div>
           <a href="https://github.com/tmtk75/mytimetable" target="github" class="no-decoratoration">
             <v-icon>mdi-github-box</v-icon>
           </a>
@@ -41,5 +41,7 @@ export default class extends Vue {
   created() {
     this.load()
   }
+
+  version = pkg.version;
 }
 </script>
