@@ -35,5 +35,6 @@ export const mutations: MutationTree<TimetableState> = {
       return
     }
     t.items.push({ time })
+    t.items.sort((a, b) => a.time.localeCompare(b.time))
   }
 }
