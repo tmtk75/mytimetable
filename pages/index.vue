@@ -14,7 +14,7 @@
         <template v-for="(table, index) in timetables">
           <v-subheader :key="'h'+index">
             <v-btn flat icon>
-              <v-icon color="grey lighten-1" @click="onAddClick(table)">add_alarm</v-icon>
+              <v-icon color="grey lighten-1" @click="onAddItemClick(table)">add_alarm</v-icon>
             </v-btn>
             {{ table.tablename }}
           </v-subheader>
@@ -42,6 +42,16 @@
         </template>
       </v-list>
     </v-flex>
+
+    <v-dialog v-model="showTimePicker" max-width="290">
+      <v-card>
+        <v-time-picker v-model="selectedTime" format="24hr"></v-time-picker>
+        <v-card-actions>
+          <v-btn flat @click="showTimePicker=false">Cancel</v-btn>
+          <v-btn flat @click="showTimePicker=false; onAddItemOK()">OK</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-layout>
 </template>
 
@@ -96,8 +106,19 @@ export default class extends Vue {
     return this.duration(time).asSeconds() < 0
   }
 
-  onAddClick(table: Timetable) {
-    this.addItem({ timetable: table, time: "12:34" })
+  targetTimetable: Timetable | null = null
+  showTimePicker = false
+  selectedTime = moment().format('HH:mm')
+
+  onAddItemClick(table: Timetable) {
+    // this.addItem({ timetable: table, time: '12:34' })
+    this.targetTimetable = table
+    this.showTimePicker = true
+  }
+
+  onAddItemOK() {
+    // console.log(this.selectedTime)
+    this.addItem({ timetable: this.targetTimetable, time: this.selectedTime })
   }
 
   @Mutation('addItem', { namespace: 'timetable' })
