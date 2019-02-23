@@ -31,7 +31,7 @@
         </v-btn>
       </v-toolbar>
 
-      <v-list dense expand>
+      <v-list dense expand v-if="timetables.length > 0">
         <v-list-group v-for="(table, index) in timetables" :key="'h'+index" v-model="folded[index]">
           <v-list-tile slot="activator">
             <v-layout align-center>
@@ -75,6 +75,9 @@
           <v-divider inset v-if="index + 1!= timetables.length" :key="'d'+index"></v-divider>
         </v-list-group>
       </v-list>
+      <v-layout v-else justify-center ma-3>
+        <v-btn flat @click="onAddTimetableClick">Add your timetable</v-btn>
+      </v-layout>
     </v-flex>
 
     <v-dialog v-model="showTimePicker" persistent max-width="290">
