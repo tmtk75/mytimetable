@@ -4,7 +4,7 @@ interface TimetableState {
   timetables: Timetable[]
 }
 
-enum key {
+export enum Key {
   timetables = 'timetables'
 }
 
@@ -20,7 +20,7 @@ export const getters: GetterTree<TimetableState, {}> = {
 
 export const actions: ActionTree<TimetableState, {}> = {
   loadTimetables({ commit, state }) {
-    const timetables = JSON.parse(localStorage.getItem(key.timetables) || '[]')
+    const timetables = JSON.parse(localStorage.getItem(Key.timetables) || '[]')
     commit('timetablesLoaded', { timetables })
   },
 
@@ -122,5 +122,5 @@ export const mutations: MutationTree<TimetableState> = {
 }
 
 function saveTimetables(timetables: Timetable[]) {
-  localStorage.setItem(key.timetables, JSON.stringify(timetables))
+  localStorage.setItem(Key.timetables, JSON.stringify(timetables))
 }

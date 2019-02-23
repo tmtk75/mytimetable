@@ -1,8 +1,21 @@
 <template>
   <v-layout>
+    <v-navigation-drawer v-model="drawer" app width="220">
+      <v-list>
+        <v-list-tile v-for="(item, i) in items" :to="item.to" :key="i" router exact>
+          <v-list-tile-action>
+            <v-icon v-html="item.icon"/>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title v-text="item.title"/>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-flex>
       <v-toolbar color="light-blue" dark app fixed>
-        <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+        <v-toolbar-side-icon @click="drawer = !drawer"/>
         <v-toolbar-title>My timetables</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>
@@ -196,9 +209,15 @@ export default class extends Vue {
 
   onUpdateTablenameClick(table: Timetable) {
     this.okAddTimetableTask = () =>
-      this.updateTimetableName({ timetable: table, timetableName: this.editedText })
+      this.updateTimetableName({
+        timetable: table,
+        timetableName: this.editedText
+      })
     this.editedText = table.tablename
     this.showTextDialog = true
   }
+
+  drawer = true
+  items = [{ to: '/export', title: 'Export', icon: 'mdi-github-box' }]
 }
 </script>

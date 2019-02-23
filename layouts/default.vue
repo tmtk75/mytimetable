@@ -40,5 +40,9 @@ export default class extends Vue {
   created() {
     this.load()
   }
+
+  drawer = false
+
+  items = [{ to: '/export', icon: 'mdi-github-box', title: 'Export' }]
 }
 </script>
