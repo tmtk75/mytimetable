@@ -11,6 +11,14 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+      <v-list dense>
+        <v-list-tile>
+          <v-list-tile-action>
+            <v-checkbox v-model="hidePassedItems"/>
+          </v-list-tile-action>
+          <v-list-tile-title>Hide passed items</v-list-tile-title>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
 
     <v-flex>
@@ -31,7 +39,10 @@
               <v-flex xs6>
                 <v-layout justify-end>
                   <v-btn flat icon>
-                    <v-icon color="grey lighten-1" @click.stop.prevent="onAddItemClick(table, index)">add</v-icon>
+                    <v-icon
+                      color="grey lighten-1"
+                      @click.stop.prevent="onAddItemClick(table, index)"
+                    >add</v-icon>
                   </v-btn>
                   <v-btn flat icon>
                     <v-icon
@@ -43,26 +54,26 @@
               </v-flex>
             </v-layout>
           </v-list-tile>
-          <template v-for="(item, index2) in table.items">
-            <v-list-tile
-              :key="'a'+index +'-' + index2"
-              :class="!isPassed(item.time) ? 'on-time' : 'passed'"
-            >
-              <v-list-tile-action/>
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.time }}</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <template v-if="!isPassed(item.time)">{{ minLeft(item.time) }}</template>
-                <template v-else>Passed</template>
-              </v-list-tile-action>
-              <v-list-tile-action>
-                <v-btn icon ripple>
-                  <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">remove</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </template>
+          <v-list-tile
+            v-for="(item, index2) in table.items"
+            :key="'a'+index +'-' + index2"
+            :class="!isPassed(item.time) ? 'on-time' : 'passed'"
+            v-if="!(isPassed(item.time) && hidePassedItems)"
+          >
+            <v-list-tile-action/>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ item.time }}</v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <template v-if="!isPassed(item.time)">{{ minLeft(item.time) }}</template>
+              <template v-else>Passed</template>
+            </v-list-tile-action>
+            <v-list-tile-action>
+              <v-btn icon ripple>
+                <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">remove</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
           <v-divider inset v-if="index + 1!= timetables.length" :key="'d'+index"></v-divider>
         </v-list-group>
       </v-list>
@@ -117,7 +128,7 @@
 
 
 <script lang="ts">
-import { Vue, Component, State, Getter, Action, Watch } from 'nuxt-property-decorator'
+import { Vue, Component, State, Getter, Action } from 'nuxt-property-decorator'
 import moment from 'moment'
 
 @Component
@@ -170,7 +181,7 @@ export default class extends Vue {
     this.targetTimetable = table
     this.selectedTime = moment().format('HH:mm')
     this.showTimePicker = true
-    this.folded[index] = true;
+    this.folded[index] = true
   }
 
   @Action('addItem', { namespace: 'timetable' })
@@ -232,5 +243,6 @@ export default class extends Vue {
 
   folded: boolean[] = Array.from(Array(256).keys()).map(e => true)
 
+  hidePassedItems = false
 }
 </script>
