@@ -14,16 +14,16 @@
         <template v-for="(table, index) in timetables">
           <v-subheader :key="'h'+index">
             <v-layout align-center>
-              <v-flex xs6>{{ table.tablename }}</v-flex>
+              <v-flex xs6 @click="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
               <v-flex xs6>
                 <v-layout justify-end>
                   <v-btn flat icon>
-                    <v-icon color="grey lighten-1" @click="onAddItemClick(table)">add</v-icon>
+                    <v-icon color="grey lighten-1" @click.stop.prevent="onAddItemClick(table)">add</v-icon>
                   </v-btn>
                   <v-btn flat icon>
                     <v-icon
                       color="grey lighten-1"
-                      @click="onDeleteTimetableClick(table)"
+                      @click.stop.prevent="onDeleteTimetableClick(table)"
                     >delete_outline</v-icon>
                   </v-btn>
                 </v-layout>
@@ -182,12 +182,22 @@ export default class extends Vue {
 
   editedText = ''
   showTextDialog = false
-  okAddTimetableTask: any;// = () => {}
+  okAddTimetableTask: () => {}
 
   onAddTimetableClick() {
-    this.okAddTimetableTask = (a) =>
+    this.okAddTimetableTask = () =>
       this.addTimetable({ timetableName: this.editedText })
     this.editedText = ''
+    this.showTextDialog = true
+  }
+
+  @Action('updateTimetableName', { namespace: 'timetable' })
+  updateTimetableName: any
+
+  onUpdateTablenameClick(table: Timetable) {
+    this.okAddTimetableTask = () =>
+      this.updateTimetableName({ timetable: table, timetableName: this.editedText })
+    this.editedText = table.tablename
     this.showTextDialog = true
   }
 }

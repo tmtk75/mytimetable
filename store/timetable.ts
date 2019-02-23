@@ -52,6 +52,16 @@ export const actions: ActionTree<TimetableState, {}> = {
 
   addTimetable({ commit }, { timetableName }: { timetableName: string }) {
     commit('timetableAdded', { timetableName })
+  },
+
+  updateTimetableName(
+    { commit },
+    {
+      timetable,
+      timetableName
+    }: { timetable: Timetable; timetableName: string }
+  ) {
+    commit('timetableNameUpdated', { timetable, timetableName })
   }
 }
 
@@ -87,5 +97,13 @@ export const mutations: MutationTree<TimetableState> = {
 
   timetableAdded(state, { timetableName }: { timetableName: string }) {
     state.timetables.push({ tablename: timetableName, items: [] })
+  },
+
+  timetableNameUpdated(state, { timetable, timetableName }: { timetable: Timetable, timetableName: string }) {
+    const t = state.timetables.find(e => e === timetable)
+    if (!t) {
+      return;
+    }
+    t.tablename = timetableName;
   }
 }
