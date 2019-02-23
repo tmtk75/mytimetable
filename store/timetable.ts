@@ -41,6 +41,13 @@ export const actions: ActionTree<TimetableState, {}> = {
     { timetable, item }: { timetable: Timetable; item: Item }
   ) {
     commit('itemDeleted', { timetable, item })
+  },
+
+  deleteTimetable(
+    { commit },
+    { timetable, item }: { timetable: Timetable; item: Item }
+  ) {
+    commit('timetableDeleted', { timetable, item })
   }
 }
 
@@ -67,5 +74,10 @@ export const mutations: MutationTree<TimetableState> = {
     }
     const i = t.items.findIndex(e => e === item)
     t.items.splice(i, 1)
+  },
+
+  timetableDeleted(state, { timetable }: { timetable: Timetable }) {
+    const i = state.timetables.findIndex(e => e === timetable)
+    state.timetables.splice(i, 1)
   }
 }

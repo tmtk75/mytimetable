@@ -13,10 +13,22 @@
       <v-list subheader>
         <template v-for="(table, index) in timetables">
           <v-subheader :key="'h'+index">
-            <v-btn flat icon>
-              <v-icon color="grey lighten-1" @click="onAddItemClick(table)">add_alarm</v-icon>
-            </v-btn>
-            {{ table.tablename }}
+            <v-layout align-center>
+              <v-flex xs6>{{ table.tablename }}</v-flex>
+              <v-flex xs6>
+                <v-layout justify-end>
+                  <v-btn flat icon>
+                    <v-icon color="grey lighten-1" @click="onAddItemClick(table)">add</v-icon>
+                  </v-btn>
+                  <v-btn flat icon>
+                    <v-icon
+                      color="grey lighten-1"
+                      @click="onDeleteTimetableClick(table)"
+                    >delete_outline</v-icon>
+                  </v-btn>
+                </v-layout>
+              </v-flex>
+            </v-layout>
           </v-subheader>
           <template v-for="(item, index2) in table.items">
             <v-list-tile
@@ -33,7 +45,7 @@
               </v-list-tile-action>
               <v-list-tile-action>
                 <v-btn icon ripple>
-                  <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">delete_outline</v-icon>
+                  <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">remove</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -142,5 +154,13 @@ export default class extends Vue {
 
   showOkOrCancel = false
   okTask: () => void = () => {}
+
+  @Action('deleteTimetable', { namespace: 'timetable' })
+  deleteTimetable: any
+
+  onDeleteTimetableClick(timetable: Timetable) {
+    this.okTask = () => this.deleteTimetable({ timetable })
+    this.showOkOrCancel = true;
+  }
 }
 </script>
