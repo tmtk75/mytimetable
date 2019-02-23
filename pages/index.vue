@@ -85,7 +85,9 @@ export default class extends Vue {
     const t = moment(time, 'HH:mm')
     // this.now = moment();
     const d = moment.duration(t.diff(this.now))
-    return `${d.hours()}:${d.minutes()}:${d.seconds()}`
+    const f = 'HH:mm:ss'
+    const m = moment(`${d.hours()}:${d.minutes()}:${d.seconds()}`, f)
+    return m.format(f)
   }
 }
 </script>
