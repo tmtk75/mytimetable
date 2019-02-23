@@ -32,6 +32,18 @@ export const actions: ActionTree<TimetableState, {}> = {
     saveTimetables(state.timetables)
   },
 
+  updateItemTitle(
+    { commit, state },
+    {
+      timetable,
+      item,
+      title
+    }: { timetable: Timetable; item: Item; title: string }
+  ) {
+    commit('itemTitleUpdated', { timetable, item, title })
+    saveTimetables(state.timetables)
+  },
+
   deleteItem(
     { commit, state },
     { timetable, item }: { timetable: Timetable; item: Item }
@@ -88,6 +100,27 @@ export const mutations: MutationTree<TimetableState> = {
     }
     t.items.push({ time })
     t.items.sort((a, b) => a.time.localeCompare(b.time))
+  },
+
+  itemTitleUpdated(
+    state,
+    {
+      timetable,
+      item,
+      title
+    }: { timetable: Timetable; item: Item; title: string }
+  ) {
+    const t = state.timetables.find(e => e === timetable)
+    if (!t) {
+      return
+    }
+    const i = t.items.find(e => e === item)
+    if (!i) {
+      // console.log("missing", item);
+      return
+    }
+    // console.log("found", i);
+    i.title = title;
   },
 
   itemDeleted(

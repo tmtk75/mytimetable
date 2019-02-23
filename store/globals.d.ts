@@ -5,6 +5,7 @@ interface Timetable {
 
 interface Item {
   time: string
+  title?: string
 }
 
 interface Config {

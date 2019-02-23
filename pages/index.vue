@@ -57,10 +57,16 @@
             :key="'a'+index +'-' + index2"
             :class="{passed: isPassed(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
             v-if="!(isPassed(item.time) && hidePassedItems)"
+            @click.stop.prevent="onUpdateItemTitleClick(table, item)"
           >
             <v-list-tile-action/>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.time }}</v-list-tile-title>
+              <v-list-tile-title>
+                <v-layout>
+                  <v-flex>{{ item.time }}</v-flex>
+                  <v-flex>{{ item.title }}</v-flex>
+                </v-layout>
+              </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <template v-if="!isPassed(item.time)">{{ minLeft(item.time) }}</template>
@@ -234,6 +240,16 @@ export default class extends Vue {
   onAddItemOK() {
     // console.log(this.selectedTime)
     this.addItem({ timetable: this.targetTimetable, time: this.selectedTime })
+  }
+
+  @Action('updateItemTitle', { namespace: 'timetable' })
+  updateItemTitle: any
+
+  onUpdateItemTitleClick(timetable: Timetable, item: Item) {
+    this.okAddTimetableTask = () =>
+      this.updateItemTitle({ timetable, item, title: this.editedText })
+    this.editedText = ''
+    this.showTextDialog = true
   }
 
   @Action('deleteItem', { namespace: 'timetable' })
