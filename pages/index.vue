@@ -55,9 +55,8 @@
 
 
 <script lang="ts">
-import { Vue, Component } from 'nuxt-property-decorator'
+import { Vue, Component, State } from 'nuxt-property-decorator'
 import moment from 'moment'
-import { setTimeout, setInterval } from 'timers'
 
 interface Table {
   tablename: string
@@ -70,21 +69,8 @@ interface Item {
 
 @Component
 export default class extends Vue {
-  tables = [
-    {
-      tablename: 'Bus',
-      items: [
-        { time: '19:25' },
-        { time: '20:15' },
-        { time: '20:35' },
-        { time: '21:00' }
-      ]
-    },
-    {
-      tablename: 'Training',
-      items: [{ time: '08:00' }]
-    }
-  ]
+  @State("tables")
+  tables: Table[];
 
   mounted() {
     setInterval(() => {
