@@ -6,7 +6,7 @@
         <v-toolbar-title>My timetables</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon>
-          <v-icon>add</v-icon>
+          <v-icon @click="onAddTimetableClick">add</v-icon>
         </v-btn>
       </v-toolbar>
 
@@ -73,6 +73,20 @@
           <v-layout justify-center>
             <v-btn flat @click="showOkOrCancel=false">Cancel</v-btn>
             <v-btn flat @click="showOkOrCancel=false; okTask()">OK</v-btn>
+          </v-layout>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showTimetableName">
+      <v-card>
+        <v-card-text>
+          <v-text-field v-model="timetableName" autofocus/>
+        </v-card-text>
+        <v-card-actions>
+          <v-layout justify-center>
+            <v-btn flat @click="showTimetableName=false">Cancel</v-btn>
+            <v-btn flat @click="showTimetableName=false; okAddTimetableTask()">OK</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -160,7 +174,21 @@ export default class extends Vue {
 
   onDeleteTimetableClick(timetable: Timetable) {
     this.okTask = () => this.deleteTimetable({ timetable })
-    this.showOkOrCancel = true;
+    this.showOkOrCancel = true
+  }
+
+  @Action('addTimetable', { namespace: 'timetable' })
+  addTimetable: any
+
+  timetableName = ''
+  showTimetableName = false
+  okAddTimetableTask = () => {}
+
+  onAddTimetableClick() {
+    this.okAddTimetableTask = () =>
+      this.addTimetable({ timetableName: this.timetableName })
+    this.timetableName = ''
+    this.showTimetableName = true
   }
 }
 </script>
