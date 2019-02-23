@@ -58,15 +58,6 @@
 import { Vue, Component, State } from 'nuxt-property-decorator'
 import moment from 'moment'
 
-interface Table {
-  tablename: string
-  item: Item[]
-}
-
-interface Item {
-  time: string
-}
-
 @Component
 export default class extends Vue {
   @State("tables")
