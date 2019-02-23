@@ -5,21 +5,7 @@ interface TimetableState {
 }
 
 export const state = (): TimetableState => ({
-  timetables: [
-    {
-      tablename: 'Bus',
-      items: [
-        { time: '19:25' },
-        { time: '20:15' },
-        { time: '20:35' },
-        { time: '21:00' }
-      ]
-    },
-    {
-      tablename: 'Training',
-      items: [{ time: '08:00' }]
-    }
-  ]
+  timetables: []
 })
 
 export const getters: GetterTree<TimetableState, {}> = {
@@ -29,6 +15,26 @@ export const getters: GetterTree<TimetableState, {}> = {
 }
 
 export const actions: ActionTree<TimetableState, {}> = {
+  loadTimetables({ commit }) {
+    commit('timetablesLoaded', {
+      timetables: [
+        {
+          tablename: 'Bus',
+          items: [
+            { time: '19:25' },
+            { time: '20:15' },
+            { time: '20:35' },
+            { time: '21:00' }
+          ]
+        },
+        {
+          tablename: 'Training',
+          items: [{ time: '08:00' }]
+        }
+      ]
+    })
+  },
+
   addItem(
     { commit },
     { timetable, time }: { timetable: Timetable; time: string }
@@ -66,6 +72,10 @@ export const actions: ActionTree<TimetableState, {}> = {
 }
 
 export const mutations: MutationTree<TimetableState> = {
+  timetablesLoaded(state, {timetables}: {timetables: Timetable[]}) {
+    state.timetables = timetables;
+  },
+
   itemAdded(
     state,
     { timetable, time }: { timetable: Timetable; time: string }
@@ -99,11 +109,17 @@ export const mutations: MutationTree<TimetableState> = {
     state.timetables.push({ tablename: timetableName, items: [] })
   },
 
-  timetableNameUpdated(state, { timetable, timetableName }: { timetable: Timetable, timetableName: string }) {
+  timetableNameUpdated(
+    state,
+    {
+      timetable,
+      timetableName
+    }: { timetable: Timetable; timetableName: string }
+  ) {
     const t = state.timetables.find(e => e === timetable)
     if (!t) {
-      return;
+      return
     }
-    t.tablename = timetableName;
+    t.tablename = timetableName
   }
 }
