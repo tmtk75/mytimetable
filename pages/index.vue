@@ -35,7 +35,7 @@
         <v-list-group v-for="(table, index) in timetables" :key="'h'+index" v-model="folded[index]">
           <v-list-tile slot="activator">
             <v-layout align-center>
-              <v-flex xs6 @click="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
+              <v-flex xs6 @click.stop.prevent="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
               <v-flex xs6>
                 <v-layout justify-end>
                   <v-btn icon v-if="index > 0" @click.stop.prevent="onMoveUpward(table)">
