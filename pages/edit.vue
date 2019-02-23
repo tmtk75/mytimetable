@@ -22,7 +22,7 @@
       </v-card>
     </v-dialog>
 
-    <v-snackbar v-model="snackbar" :timeout="2000">
+    <v-snackbar v-model="snackbar" :timeout="1500">
       <v-layout justify-center>{{ snackbarText}}</v-layout>
     </v-snackbar>
   </v-container>
