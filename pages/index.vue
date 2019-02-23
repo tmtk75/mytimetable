@@ -102,11 +102,12 @@ export default class extends Vue {
 
   targetTimetable: Timetable | null = null
   showTimePicker = false
-  selectedTime = moment().format('HH:mm')
+  selectedTime = ''
 
   onAddItemClick(table: Timetable) {
     // this.addItem({ timetable: table, time: '12:34' })
     this.targetTimetable = table
+    this.selectedTime = moment().format('HH:mm')
     this.showTimePicker = true
   }
 
