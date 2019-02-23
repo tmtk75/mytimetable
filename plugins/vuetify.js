@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib'
 import colors from 'vuetify/es5/util/colors'
+import "@mdi/font/css/materialdesignicons.css"; // https://vuetifyjs.com/en/framework/icons#installing-fonts
 
 Vue.use(Vuetify, {
   theme: {
