@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
-      <v-toolbar color="light-blue" dark>
+      <v-toolbar color="light-blue" dark app fixed>
         <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
         <v-toolbar-title>My timetables</v-toolbar-title>
         <v-spacer></v-spacer>

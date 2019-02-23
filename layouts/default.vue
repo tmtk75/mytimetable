@@ -4,6 +4,7 @@
       <v-app>
         <nuxt/>
       </v-app>
+
       <v-footer fixed app>
         <v-layout justify-center class="caption">
           <span>copyright 2019 tmtk75</span>
@@ -12,6 +13,13 @@
     </v-container>
   </v-content>
 </template>
+
+
+<style scoped>
+.toolbar {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+</style>
 
 
 <script lang="ts">
