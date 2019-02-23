@@ -152,7 +152,8 @@ import {
 import moment from 'moment'
 
 enum key {
-  config = 'config'
+  hidePassedItems = 'hidePassedItems',
+  folded = "folded"
 }
 
 @Component
@@ -172,8 +173,7 @@ export default class extends Vue {
     }, 1000)
     this.drawer = false
 
-    const conf: Config = JSON.parse(localStorage.getItem(key.config) || '{}')
-    this.hidePassedItems = conf.hidePassedItems
+    this.hidePassedItems = JSON.parse(localStorage.getItem(key.hidePassedItems) || "false")
   }
 
   destroyed() {
@@ -283,13 +283,12 @@ export default class extends Vue {
   drawer = false
   items = [{ to: '/edit', icon: 'mdi-pencil-outline', title: 'Edit' }]
 
-  folded: boolean[] = Array.from(Array(256).keys()).map(e => true)
+  folded: boolean[] = (JSON.parse(localStorage.getItem(key.folded) || JSON.stringify(Array.from(Array(256).keys()).map(e => true))))
 
   hidePassedItems = false
   @Watch('hidePassedItems')
   watchHidePassedItems(curr, old) {
-    const c: Config = { hidePassedItems: curr }
-    localStorage.setItem(key.config, JSON.stringify(c))
+    localStorage.setItem(key.hidePassedItems, JSON.stringify(curr))
   }
 
   @Action('moveUpTimetable', { namespace: 'timetable' })
