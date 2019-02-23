@@ -47,7 +47,7 @@ export default class extends Vue {
 
   async asyncData({ store, params }) {
     return {
-      data: localStorage.getItem(Key.timetables)
+      data: (localStorage.getItem(Key.timetables) || "[]")
     }
   }
 
