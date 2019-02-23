@@ -4,6 +4,10 @@ interface TimetableState {
   timetables: Timetable[]
 }
 
+enum key {
+  timetables = 'timetables'
+}
+
 export const state = (): TimetableState => ({
   timetables: []
 })
@@ -15,65 +19,58 @@ export const getters: GetterTree<TimetableState, {}> = {
 }
 
 export const actions: ActionTree<TimetableState, {}> = {
-  loadTimetables({ commit }) {
-    commit('timetablesLoaded', {
-      timetables: [
-        {
-          tablename: 'Bus',
-          items: [
-            { time: '19:25' },
-            { time: '20:15' },
-            { time: '20:35' },
-            { time: '21:00' }
-          ]
-        },
-        {
-          tablename: 'Training',
-          items: [{ time: '08:00' }]
-        }
-      ]
-    })
+  loadTimetables({ commit, state }) {
+    const timetables = JSON.parse(localStorage.getItem(key.timetables) || '[]')
+    commit('timetablesLoaded', { timetables })
   },
 
   addItem(
-    { commit },
+    { commit, state },
     { timetable, time }: { timetable: Timetable; time: string }
   ) {
     commit('itemAdded', { timetable, time })
+    saveTimetables(state.timetables)
   },
 
   deleteItem(
-    { commit },
+    { commit, state },
     { timetable, item }: { timetable: Timetable; item: Item }
   ) {
     commit('itemDeleted', { timetable, item })
+    saveTimetables(state.timetables)
   },
 
   deleteTimetable(
-    { commit },
+    { commit, state },
     { timetable, item }: { timetable: Timetable; item: Item }
   ) {
     commit('timetableDeleted', { timetable, item })
+    saveTimetables(state.timetables)
   },
 
-  addTimetable({ commit }, { timetableName }: { timetableName: string }) {
+  addTimetable(
+    { commit, state },
+    { timetableName }: { timetableName: string }
+  ) {
     commit('timetableAdded', { timetableName })
+    saveTimetables(state.timetables)
   },
 
   updateTimetableName(
-    { commit },
+    { commit, state },
     {
       timetable,
       timetableName
     }: { timetable: Timetable; timetableName: string }
   ) {
     commit('timetableNameUpdated', { timetable, timetableName })
+    saveTimetables(state.timetables)
   }
 }
 
 export const mutations: MutationTree<TimetableState> = {
-  timetablesLoaded(state, {timetables}: {timetables: Timetable[]}) {
-    state.timetables = timetables;
+  timetablesLoaded(state, { timetables }: { timetables: Timetable[] }) {
+    state.timetables = timetables
   },
 
   itemAdded(
@@ -122,4 +119,8 @@ export const mutations: MutationTree<TimetableState> = {
     }
     t.tablename = timetableName
   }
+}
+
+function saveTimetables(timetables: Timetable[]) {
+  localStorage.setItem(key.timetables, JSON.stringify(timetables))
 }
