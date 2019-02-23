@@ -41,7 +41,7 @@
                   <v-btn icon v-if="index > 0" @click.stop.prevent="onMoveUpward(table)">
                     <v-icon color="grey lighten-1">keyboard_arrow_up</v-icon>
                   </v-btn>
-                  <v-btn icon @click.stop.prevent="onAddItemClick(table, index)">
+                  <v-btn icon @click.stop.prevent="onAddItemClick(table)">
                     <v-icon color="grey lighten-1">add</v-icon>
                   </v-btn>
                   <v-btn icon @click.stop.prevent="onDeleteTimetableClick(table)">
@@ -220,12 +220,12 @@ export default class extends Vue {
   showTimePicker = false
   selectedTime = ''
 
-  onAddItemClick(table: Timetable, index: number) {
+  onAddItemClick(table: Timetable) {
     // this.addItem({ timetable: table, time: '12:34' })
     this.targetTimetable = table
     this.selectedTime = moment().format('HH:mm')
     this.showTimePicker = true
-    this.folded[index] = true
+    // this.folded[index] = true
   }
 
   @Action('addItem', { namespace: 'timetable' })
