@@ -55,13 +55,16 @@
 
 
 <script lang="ts">
-import { Vue, Component, State } from 'nuxt-property-decorator'
+import { Vue, Component, State, Getter } from 'nuxt-property-decorator'
 import moment from 'moment'
 
 @Component
 export default class extends Vue {
-  @State("tables")
-  tables: Table[];
+  @Getter('timetables', { namespace: 'timetable'})
+  tables: Timetable[]
+
+  @State('colors', { namespace: 'color' })
+  colors: any
 
   mounted() {
     setInterval(() => {

@@ -1,6 +1,6 @@
 {
-  "name": "mins-left",
-  "version": "1.0.0",
+  "name": "mytimetable",
+  "version": "0.1.0",
   "description": "My stupendous Nuxt.js project",
   "author": "Tomotaka Sakuma",
   "private": true,

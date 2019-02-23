@@ -1,4 +1,4 @@
-interface Table {
+interface Timetable {
     tablename: string
     items: Item[]
   }
