@@ -55,7 +55,7 @@
           <v-list-tile
             v-for="(item, index2) in table.items"
             :key="'a'+index +'-' + index2"
-            :class="{passed: isPassed(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
+            :class="{passed: isPassed(item.time), in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
             v-if="!(isPassed(item.time) && hidePassedItems)"
             @click.stop.prevent="onUpdateItemTitleClick(table, item)"
           >
@@ -74,7 +74,10 @@
             </v-list-tile-action>
             <v-list-tile-action>
               <v-btn icon ripple>
-                <v-icon color="grey lighten-1" @click.stop.prevent="onDeleteItem(table, item)">remove</v-icon>
+                <v-icon
+                  color="grey lighten-1"
+                  @click.stop.prevent="onDeleteItem(table, item)"
+                >remove</v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
@@ -130,6 +133,10 @@
 .passed {
   background-color: lightgray;
   color: gray;
+}
+
+.in7mins {
+  background-color: lighten(green, 33%);
 }
 
 .in5mins {
@@ -207,6 +214,11 @@ export default class extends Vue {
     return this.duration(time).asSeconds() < 0
   }
 
+  isIn7mins(time: string) {
+    const t = this.duration(time).asSeconds()
+    return 5 * 60 < t && t < 7 * 60
+  }
+
   isIn5mins(time: string) {
     const t = this.duration(time).asSeconds()
     return 3 * 60 < t && t < 5 * 60
@@ -248,7 +260,7 @@ export default class extends Vue {
   onUpdateItemTitleClick(timetable: Timetable, item: Item) {
     this.okAddTimetableTask = () =>
       this.updateItemTitle({ timetable, item, title: this.editedText })
-    this.editedText = item.title || ""
+    this.editedText = item.title || ''
     this.showTextDialog = true
   }
 
