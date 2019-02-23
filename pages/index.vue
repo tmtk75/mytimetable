@@ -248,7 +248,7 @@ export default class extends Vue {
   onUpdateItemTitleClick(timetable: Timetable, item: Item) {
     this.okAddTimetableTask = () =>
       this.updateItemTitle({ timetable, item, title: this.editedText })
-    this.editedText = ''
+    this.editedText = item.title || ""
     this.showTextDialog = true
   }
 
