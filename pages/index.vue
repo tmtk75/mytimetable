@@ -47,8 +47,21 @@
       <v-card>
         <v-time-picker v-model="selectedTime" format="24hr"></v-time-picker>
         <v-card-actions>
-          <v-btn flat @click="showTimePicker=false">Cancel</v-btn>
-          <v-btn flat @click="showTimePicker=false; onAddItemOK()">OK</v-btn>
+          <v-layout justify-center>
+            <v-btn flat @click="showTimePicker=false">Cancel</v-btn>
+            <v-btn flat @click="showTimePicker=false; onAddItemOK()">OK</v-btn>
+          </v-layout>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showOkOrCancel">
+      <v-card>
+        <v-card-actions>
+          <v-layout justify-center>
+            <v-btn flat @click="showOkOrCancel=false">Cancel</v-btn>
+            <v-btn flat @click="showOkOrCancel=false; okTask()">OK</v-btn>
+          </v-layout>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -123,7 +136,11 @@ export default class extends Vue {
   deleteItem: any
 
   onDeleteItem(timetable: Timetable, item: Item) {
-    this.deleteItem({ timetable, item })
+    this.okTask = () => this.deleteItem({ timetable, item })
+    this.showOkOrCancel = true
   }
+
+  showOkOrCancel = false
+  okTask: () => void = () => {}
 }
 </script>
