@@ -54,10 +54,11 @@
               </v-flex>
             </v-layout>
           </v-list-tile>
+
           <v-list-tile
             v-for="(item, index2) in table.items"
             :key="'a'+index +'-' + index2"
-            :class="!isPassed(item.time) ? 'on-time' : 'passed'"
+            :class="{passed: isPassed(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
             v-if="!(isPassed(item.time) && hidePassedItems)"
           >
             <v-list-tile-action/>
@@ -119,10 +120,22 @@
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .passed {
   background-color: lightgray;
   color: gray;
+}
+
+.in5mins {
+  background-color: lighten(blue, 33%);
+}
+
+.in3mins {
+  background-color: lighten(yellow, 33%);
+}
+
+.in1min {
+  background-color: lighten(red, 33%);
 }
 </style>
 
@@ -170,6 +183,21 @@ export default class extends Vue {
 
   isPassed(time: string) {
     return this.duration(time).asSeconds() < 0
+  }
+
+  isIn5mins(time: string) {
+    const t = this.duration(time).asSeconds()
+    return 3 * 60 < t && t < 5 * 60
+  }
+
+  isIn3mins(time: string) {
+    const t = this.duration(time).asSeconds()
+    return 1 * 60 < t && t < 3 * 60
+  }
+
+  isIn1min(time: string) {
+    const t = this.duration(time).asSeconds()
+    return 0 < t && t < 1 * 60
   }
 
   targetTimetable: Timetable | null = null
