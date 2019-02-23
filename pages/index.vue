@@ -33,7 +33,7 @@
               </v-list-tile-action>
               <v-list-tile-action>
                 <v-btn icon ripple>
-                  <v-icon color="grey lighten-1">delete_outline</v-icon>
+                  <v-icon color="grey lighten-1" @click="onDeleteItem(table, item)">delete_outline</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -110,12 +110,19 @@ export default class extends Vue {
     this.showTimePicker = true
   }
 
+  @Action('addItem', { namespace: 'timetable' })
+  addItem: any
+
   onAddItemOK() {
     // console.log(this.selectedTime)
     this.addItem({ timetable: this.targetTimetable, time: this.selectedTime })
   }
 
-  @Action('addItem', { namespace: 'timetable' })
-  addItem: any
+  @Action('deleteItem', { namespace: 'timetable' })
+  deleteItem: any
+
+  onDeleteItem(timetable: Timetable, item: Item) {
+    this.deleteItem({ timetable, item })
+  }
 }
 </script>
