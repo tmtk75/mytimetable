@@ -65,6 +65,11 @@ export const actions: ActionTree<TimetableState, {}> = {
   ) {
     commit('timetableNameUpdated', { timetable, timetableName })
     saveTimetables(state.timetables)
+  },
+
+  moveUpTimetable({ commit, state }, { timetable }: { timetable: Timetable }) {
+    commit('timetableMovedUp', { timetable })
+    saveTimetables(state.timetables)
   }
 }
 
@@ -118,6 +123,12 @@ export const mutations: MutationTree<TimetableState> = {
       return
     }
     t.tablename = timetableName
+  },
+
+  timetableMovedUp(state, { timetable }: { timetable: Timetable }) {
+    const i = state.timetables.findIndex(e => e === timetable)
+    state.timetables.splice(i, 1)
+    state.timetables.splice(i - 1, 0, timetable)
   }
 }
 

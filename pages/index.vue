@@ -38,7 +38,7 @@
               <v-flex xs6 @click="onUpdateTablenameClick(table)">{{ table.tablename }}</v-flex>
               <v-flex xs6>
                 <v-layout justify-end>
-                  <v-btn icon @click.stop.prevent v-if="index > 0">
+                  <v-btn icon v-if="index > 0" @click.stop.prevent="onMoveUpward(table)">
                     <v-icon color="grey lighten-1">keyboard_arrow_up</v-icon>
                   </v-btn>
                   <v-btn icon @click.stop.prevent="onAddItemClick(table, index)">
@@ -287,6 +287,13 @@ export default class extends Vue {
   watchHidePassedItems(curr, old) {
     const c: Config = { hidePassedItems: curr }
     localStorage.setItem(key.config, JSON.stringify(c))
+  }
+
+  @Action('moveUpTimetable', { namespace: 'timetable' })
+  moveUpTimetable: any
+
+  onMoveUpward(table: Timetable) {
+    this.moveUpTimetable({ timetable: table })
   }
 }
 </script>
