@@ -11,12 +11,27 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+
+      <v-divider/>
+
       <v-list dense>
         <v-list-tile>
           <v-list-tile-action>
             <v-checkbox v-model="hidePassedItems"/>
           </v-list-tile-action>
           <v-list-tile-title>Hide passed items</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="onExpandAllClick(true)">
+          <v-list-tile-action>
+            <v-icon>keyboard_arrow_up</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Unfold all</v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile @click="onExpandAllClick(false)">
+          <v-list-tile-action>
+            <v-icon>keyboard_arrow_down</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-title>Fold all</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -352,5 +367,10 @@ export default class extends Vue {
   onMoveUpward(table: Timetable) {
     this.moveUpTimetable({ timetable: table })
   }
+
+  onExpandAllClick(expand: boolean) {
+    this.folded = this.folded.map(e => expand)
+  }
 }
 </script>
+
