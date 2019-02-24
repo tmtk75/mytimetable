@@ -95,13 +95,13 @@
       </v-layout>
     </v-flex>
 
-    <v-dialog v-model="showTimePicker" persistent max-width="290">
+    <v-dialog v-model="showTimePickerDialog" persistent max-width="290">
       <v-card>
-        <v-time-picker v-model="selectedTime" format="24hr"></v-time-picker>
+        <v-time-picker v-model="pickedTime" format="24hr"></v-time-picker>
         <v-card-actions>
           <v-layout justify-center>
-            <v-btn flat @click="showTimePicker=false">Cancel</v-btn>
-            <v-btn flat @click="showTimePicker=false; onAddItemOK()">OK</v-btn>
+            <v-btn flat @click="showTimePickerDialog=false">Cancel</v-btn>
+            <v-btn flat @click="showTimePickerDialog=false; timePickerDialogTask()">OK</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -253,24 +253,20 @@ export default class extends Vue {
   }
 
   targetTimetable: Timetable | null = null
-  showTimePicker = false
-  selectedTime = ''
+  showTimePickerDialog = false
+  pickedTime = ''
+  timePickerDialogTask: () => void = () => {}
 
   onAddItemClick(table: Timetable) {
-    // this.addItem({ timetable: table, time: '12:34' })
     this.targetTimetable = table
-    this.selectedTime = moment().format('HH:mm')
-    this.showTimePicker = true
-    // this.folded[index] = true
+    this.pickedTime = moment().format('HH:mm')
+    this.timePickerDialogTask = () =>
+      this.addItem({ timetable: this.targetTimetable, time: this.pickedTime })
+    this.showTimePickerDialog = true
   }
 
   @Action('addItem', { namespace: 'timetable' })
   addItem: any
-
-  onAddItemOK() {
-    // console.log(this.selectedTime)
-    this.addItem({ timetable: this.targetTimetable, time: this.selectedTime })
-  }
 
   @Action('updateItemTitle', { namespace: 'timetable' })
   updateItemTitle: any
