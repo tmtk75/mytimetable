@@ -4,3 +4,13 @@
   publish = "./dist/"
   command = "npm run generate"
 
+[[redirects]]
+  from = "http://mytimetable.netlify.com/"
+  to = "http://mytimetable.tmtk.net/"
+  status = 302
+
+[[redirects]]
+  from = "http://mytimetable.netlify.com/*"
+  to = "http://mytimetable.tmtk.net/:splat"
+  status = 302
+ 
