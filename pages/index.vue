@@ -75,7 +75,7 @@
               <span
                 v-if="!isPassed(item.time)"
                 :class="{in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
-              >{{ minLeft(item.time) }}</span>
+              >{{ remainingTime(item.time) }}</span>
               <span v-else :class="{passed: isPassed(item.time)}">passed</span>
             </v-list-tile-action>
             <v-list-tile-action>
@@ -112,7 +112,7 @@
         <v-card-actions>
           <v-layout justify-center>
             <v-btn flat @click="showOkOrCancel=false">Cancel</v-btn>
-            <v-btn flat @click="showOkOrCancel=false; okTask()">OK</v-btn>
+            <v-btn flat @click="showOkOrCancel=false; okOrCancelDialogTask()">OK</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -126,7 +126,7 @@
         <v-card-actions>
           <v-layout justify-center>
             <v-btn flat @click="showTextDialog=false">Cancel</v-btn>
-            <v-btn flat @click="showTextDialog=false; okAddTimetableTask()">OK</v-btn>
+            <v-btn flat @click="showTextDialog=false; textDialogTask()">OK</v-btn>
           </v-layout>
         </v-card-actions>
       </v-card>
@@ -216,7 +216,7 @@ export default class extends Vue {
 
   now: moment.Moment = moment()
 
-  minLeft(time: string): string {
+  remainingTime(time: string): string {
     const d = this.duration(time)
     const f = 'HH:mm:ss'
     const m = moment(`${d.hours()}:${d.minutes()}:${d.seconds()}`, f)
@@ -276,7 +276,7 @@ export default class extends Vue {
   updateItemTitle: any
 
   onUpdateItemTitleClick(timetable: Timetable, item: Item) {
-    this.okAddTimetableTask = () =>
+    this.textDialogTask = () =>
       this.updateItemTitle({ timetable, item, title: this.editedText })
     this.editedText = item.title || ''
     this.textDialogLabel = 'Time title'
@@ -287,18 +287,18 @@ export default class extends Vue {
   deleteItem: any
 
   onDeleteItem(timetable: Timetable, item: Item) {
-    this.okTask = () => this.deleteItem({ timetable, item })
+    this.okOrCancelDialogTask = () => this.deleteItem({ timetable, item })
     this.showOkOrCancel = true
   }
 
   showOkOrCancel = false
-  okTask: () => void = () => {}
+  okOrCancelDialogTask: () => void = () => {}
 
   @Action('deleteTimetable', { namespace: 'timetable' })
   deleteTimetable: any
 
   onDeleteTimetableClick(timetable: Timetable) {
-    this.okTask = () => this.deleteTimetable({ timetable })
+    this.okOrCancelDialogTask = () => this.deleteTimetable({ timetable })
     this.showOkOrCancel = true
   }
 
@@ -308,10 +308,10 @@ export default class extends Vue {
   editedText = ''
   textDialogLabel = ''
   showTextDialog = false
-  okAddTimetableTask: () => {}
+  textDialogTask: () => {}
 
   onAddTimetableClick() {
-    this.okAddTimetableTask = () =>
+    this.textDialogTask = () =>
       this.addTimetable({ timetableName: this.editedText })
     this.editedText = ''
     this.textDialogLabel = 'Timetable name'
@@ -322,7 +322,7 @@ export default class extends Vue {
   updateTimetableName: any
 
   onUpdateTablenameClick(table: Timetable) {
-    this.okAddTimetableTask = () =>
+    this.textDialogTask = () =>
       this.updateTimetableName({
         timetable: table,
         timetableName: this.editedText
