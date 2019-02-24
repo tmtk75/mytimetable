@@ -115,7 +115,7 @@
     <v-dialog v-model="showTextDialog" persistent>
       <v-card>
         <v-card-text>
-          <v-text-field v-model="editedText" autofocus/>
+          <v-text-field v-model="editedText" autofocus hide-details :label="textDialogLabel"/>
         </v-card-text>
         <v-card-actions>
           <v-layout justify-center>
@@ -261,6 +261,7 @@ export default class extends Vue {
     this.okAddTimetableTask = () =>
       this.updateItemTitle({ timetable, item, title: this.editedText })
     this.editedText = item.title || ''
+    this.textDialogLabel = "Time title"
     this.showTextDialog = true
   }
 
@@ -287,6 +288,7 @@ export default class extends Vue {
   addTimetable: any
 
   editedText = ''
+  textDialogLabel = ""
   showTextDialog = false
   okAddTimetableTask: () => {}
 
@@ -294,6 +296,7 @@ export default class extends Vue {
     this.okAddTimetableTask = () =>
       this.addTimetable({ timetableName: this.editedText })
     this.editedText = ''
+    this.textDialogLabel = "Timetable name"
     this.showTextDialog = true
   }
 
@@ -307,6 +310,7 @@ export default class extends Vue {
         timetableName: this.editedText
       })
     this.editedText = table.tablename
+    this.textDialogLabel = "Timetable name"
     this.showTextDialog = true
   }
 
