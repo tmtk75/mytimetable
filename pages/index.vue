@@ -89,6 +89,7 @@
             <v-list-tile-action>
               <span
                 v-if="!isPassed(item.time)"
+                class="normal"
                 :class="{in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
               >{{ remainingTime(item.time) }}</span>
               <span v-else :class="{passed: isPassed(item.time)}">passed</span>
@@ -154,6 +155,10 @@
 @mixin pill-style {
   padding: 2px 0.5rem;
   border-radius: 2px;
+}
+
+.normal {
+  @include pill-style;
 }
 
 .passed {
