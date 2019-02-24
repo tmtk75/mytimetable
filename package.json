@@ -1,8 +1,8 @@
 {
   "name": "mytimetable",
   "version": "0.1.0",
-  "description": "My stupendous Nuxt.js project",
-  "author": "Tomotaka Sakuma",
+  "description": "mytimetables",
+  "author": "@tmtk75",
   "private": true,
   "scripts": {
     "dev": "nuxt",
