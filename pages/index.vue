@@ -55,7 +55,6 @@
           <v-list-tile
             v-for="(item, index2) in table.items"
             :key="'a'+index +'-' + index2"
-            :class="{passed: isPassed(item.time), in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
             v-if="!(isPassed(item.time) && hidePassedItems)"
             @click.stop.prevent="onUpdateItemTitleClick(table, item)"
           >
@@ -69,8 +68,11 @@
               </v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <template v-if="!isPassed(item.time)">{{ minLeft(item.time) }}</template>
-              <template v-else>Passed</template>
+              <span
+                v-if="!isPassed(item.time)"
+                :class="{in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
+              >{{ minLeft(item.time) }}</span>
+              <span v-else :class="{passed: isPassed(item.time)}">passed</span>
             </v-list-tile-action>
             <v-list-tile-action>
               <v-btn icon ripple>
@@ -130,24 +132,36 @@
 
 
 <style lang="scss" scoped>
+@mixin pill-style {
+  padding: 2px 0.5rem;
+  border-radius: 2px;
+}
+
 .passed {
+  @include pill-style;
   background-color: lightgray;
   color: gray;
 }
 
 .in7mins {
-  background-color: lighten(green, 33%);
+  @include pill-style;
+  // background-color: lighten(#04b976, 7%);
+  background-color: lighten(#03a56a, 3%);
 }
 
 .in5mins {
-  background-color: lighten(blue, 33%);
+  @include pill-style;
+  // background-color: lighten(#0000c6, 1%);
+  background-color: lighten(#ff981a, 1%);
 }
 
 .in3mins {
-  background-color: lighten(yellow, 33%);
+  @include pill-style;
+  background-color: lighten(#cccc00, 7%);
 }
 
 .in1min {
+  @include pill-style;
   background-color: lighten(red, 33%);
 }
 </style>
@@ -261,7 +275,7 @@ export default class extends Vue {
     this.okAddTimetableTask = () =>
       this.updateItemTitle({ timetable, item, title: this.editedText })
     this.editedText = item.title || ''
-    this.textDialogLabel = "Time title"
+    this.textDialogLabel = 'Time title'
     this.showTextDialog = true
   }
 
@@ -288,7 +302,7 @@ export default class extends Vue {
   addTimetable: any
 
   editedText = ''
-  textDialogLabel = ""
+  textDialogLabel = ''
   showTextDialog = false
   okAddTimetableTask: () => {}
 
@@ -296,7 +310,7 @@ export default class extends Vue {
     this.okAddTimetableTask = () =>
       this.addTimetable({ timetableName: this.editedText })
     this.editedText = ''
-    this.textDialogLabel = "Timetable name"
+    this.textDialogLabel = 'Timetable name'
     this.showTextDialog = true
   }
 
@@ -310,7 +324,7 @@ export default class extends Vue {
         timetableName: this.editedText
       })
     this.editedText = table.tablename
-    this.textDialogLabel = "Timetable name"
+    this.textDialogLabel = 'Timetable name'
     this.showTextDialog = true
   }
 
