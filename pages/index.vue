@@ -52,6 +52,7 @@
             <v-layout align-center>
               <v-flex xs1 class="alarm-icon">
                 <v-icon v-if="remainingClass(table)" :class="remainingClass(table)">alarm</v-icon>
+                <span v-if="isAllPassed(table)">E</span>
               </v-flex>
               <v-flex
                 xs5
@@ -162,7 +163,7 @@
 
 $in7mins: lighten(#03a56a, 3%);
 $in5mins: lighten(#ff981a, 1%);
-$in3mins: lighten(#cccc00, 7%);
+$in3mins: lighten(#cccc00, 1%);
 $in1min: lighten(red, 33%);
 
 .alarm-icon {
@@ -417,6 +418,10 @@ export default class extends Vue {
       in3mins: this.isIn3mins(item.time),
       in1min: this.isIn1min(item.time)
     }
+  }
+
+  isAllPassed(table: Timetable) {
+    return table.items.map(e => this.isPassed(e.time)).reduce((a, b) => a + (b ? 0 : 1), 0) === 0
   }
 }
 </script>
