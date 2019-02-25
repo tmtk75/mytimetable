@@ -50,8 +50,11 @@
         <v-list-group v-for="(table, index) in timetables" :key="'h'+index" v-model="folded[index]">
           <v-list-tile slot="activator">
             <v-layout align-center>
+              <v-flex xs1 class="alarm-icon">
+                <v-icon v-if="remainingClass(table)" :class="remainingClass(table)">alarm</v-icon>
+              </v-flex>
               <v-flex
-                xs6
+                xs5
                 @click.stop.prevent="onUpdateTablenameClick(table)"
                 class="text-truncate"
               >{{ table.tablename }}</v-flex>
@@ -86,11 +89,11 @@
                 </v-layout>
               </v-list-tile-title>
             </v-list-tile-content>
-            <v-list-tile-action>
+            <v-list-tile-action class="time">
               <span
                 v-if="!isPassed(item.time)"
                 class="normal"
-                :class="{in7mins: isIn7mins(item.time), in5mins: isIn5mins(item.time), in3mins: isIn3mins(item.time), in1min: isIn1min(item.time)}"
+                :class="remainingClassItem(item)"
               >{{ remainingTime(item.time) }}</span>
               <span v-else :class="{passed: isPassed(item.time)}">passed</span>
             </v-list-tile-action>
@@ -157,36 +160,56 @@
   border-radius: 2px;
 }
 
-.normal {
-  @include pill-style;
+$in7mins: lighten(#03a56a, 3%);
+$in5mins: lighten(#ff981a, 1%);
+$in3mins: lighten(#cccc00, 7%);
+$in1min: lighten(red, 33%);
+
+.alarm-icon {
+  .in7mins {
+    color: $in7mins;
+  }
+  .in5mins {
+    color: $in5mins;
+  }
+  .in3mins {
+    color: $in3mins;
+  }
+  .in1min {
+    color: $in1min;
+  }
 }
 
-.passed {
-  @include pill-style;
-  background-color: lightgray;
-  color: gray;
-}
+.time {
+  .normal {
+    @include pill-style;
+  }
 
-.in7mins {
-  @include pill-style;
-  // background-color: lighten(#04b976, 7%);
-  background-color: lighten(#03a56a, 3%);
-}
+  .passed {
+    @include pill-style;
+    background-color: lightgray;
+    color: gray;
+  }
 
-.in5mins {
-  @include pill-style;
-  // background-color: lighten(#0000c6, 1%);
-  background-color: lighten(#ff981a, 1%);
-}
+  .in7mins {
+    @include pill-style;
+    background-color: $in7mins;
+  }
 
-.in3mins {
-  @include pill-style;
-  background-color: lighten(#cccc00, 7%);
-}
+  .in5mins {
+    @include pill-style;
+    background-color: $in5mins;
+  }
 
-.in1min {
-  @include pill-style;
-  background-color: lighten(red, 33%);
+  .in3mins {
+    @include pill-style;
+    background-color: $in3mins;
+  }
+
+  .in1min {
+    @include pill-style;
+    background-color: $in1min;
+  }
 }
 </style>
 
@@ -218,7 +241,7 @@ export default class extends Vue {
   intervalId: any = null
 
   created() {
-    // console.log('created')
+    console.log('created')
     this.intervalId = setInterval(() => {
       this.now = moment()
     }, 1000)
@@ -234,7 +257,7 @@ export default class extends Vue {
     clearInterval(this.intervalId)
   }
 
-  now: moment.Moment = moment()
+  now: moment.Moment = moment();
 
   remainingTime(time: string): string {
     const d = this.duration(time)
@@ -376,6 +399,26 @@ export default class extends Vue {
   onExpandAllClick(expand: boolean) {
     this.folded = this.folded.map(e => expand)
   }
+
+  remainingClass(table: Timetable) {
+    for (let i = 0; i < table.items.length; i++) {
+      const a = this.remainingClassItem(table.items[i])
+      if (a.in7mins || a.in5mins || a.in3mins || a.in1min) {
+        return a
+      }
+    }
+    return null
+  }
+
+  remainingClassItem(item: Item) {
+    return {
+      in7mins: this.isIn7mins(item.time),
+      in5mins: this.isIn5mins(item.time),
+      in3mins: this.isIn3mins(item.time),
+      in1min: this.isIn1min(item.time)
+    }
+  }
 }
 </script>
+
 
